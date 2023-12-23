@@ -1,5 +1,6 @@
 package com.machinecoding.bookmyshow.Models;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,12 +9,23 @@ import java.util.List;
 
 @Getter
 @Setter
+@Entity
 public class Ticket extends BaseModel{
     private int amount;
     private Date timeOfBooking;
-    private List<Seat> seats;
+
+    @ManyToMany
+    private List<Chair> seats;
+
+    @ManyToOne
     private User user;
-    private Show show;
+
+    @ManyToOne
+    private Event show;
+
+    @OneToMany(mappedBy = "ticket")
     private List<Payment> payments;
+
+    @Enumerated(EnumType.ORDINAL)
     private TicketStatus status;
 }
